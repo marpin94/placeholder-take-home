@@ -1,5 +1,9 @@
 
+//Function to fetch and display users from API - each user name will have a click event to display posts 
+
 function getUsers(){
+
+    //Setting up page for display, remove any content if returning from posts
 
     const content = document.getElementById('content')
     content.textContent=''
@@ -34,6 +38,8 @@ function getUsers(){
     fetch('https://jsonplaceholder.typicode.com/users')
     .then(response => response.json())
     .then(data => 
+        //Loop through each user to display information 
+    
         data.forEach(user => {
 
         const tr = document.createElement('tr');
@@ -41,6 +47,7 @@ function getUsers(){
         const name = document.createElement('td')
         name.textContent = user.name
         name.id = 'name'
+        //Event listener to call getPosts, passing user id to find correct posts
         name.addEventListener('click', () => getPosts(user.id, user.name))
 
         const userName = document.createElement('td')
@@ -58,8 +65,10 @@ function getUsers(){
     })
 )}
 
+//Get and display posts  - initializes from click event in getUsers
 
 function getPosts(id, user) {
+    //Clear user table from content to display user posts 
     const content = document.getElementById('content');
     content.textContent=''
 
@@ -76,6 +85,7 @@ function getPosts(id, user) {
     fetch(`https://jsonplaceholder.typicode.com/posts?userId=${id}`)
     .then(response => response.json())
     .then(data => 
+        //API call and loop to display post title and body
         data.forEach(post => {
             const card = document.createElement('div');
             card.id = 'postCard'
@@ -94,5 +104,5 @@ function getPosts(id, user) {
 }
 
 
-
+//Get users is invoked upon page loading
 getUsers();
